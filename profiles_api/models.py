@@ -20,7 +20,7 @@ class UserProfileManager(BaseUserManager):
 
         user = self.create_user(email, first_name, last_name, password)
         user.is_superuser = True
-        user.is_stuff = True
+        user.is_staff = True
         user.save(using=self._db)
 
         return user
@@ -35,7 +35,7 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     objects = UserProfileManager()
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["name"]
+    REQUIRED_FIELDS = ["first_name", "last_name"]
 
     def get_first_name(self):
         """ retrive the full name of a user"""
