@@ -2,12 +2,14 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.parsers import JSONParser
-from rest_framework import  viewsets
-from rest_framework.authentication import  TokenAuthentication
+from rest_framework import viewsets, filters
+from rest_framework.authentication import TokenAuthentication
 
 from profiles_api import serializers
 from profiles_api.models import UserProfile
-from profiles_api import  permissions
+from profiles_api import permissions
+
+
 class UserList(APIView):
     """Class to get list of users"""
     serializer_user = serializers.UserSerializer
@@ -71,3 +73,5 @@ class UserViewset(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
     authentication_classes = (TokenAuthentication,)
     permission_classes = (permissions.UpdateOwnProfile,)
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('first_name', 'email',)
